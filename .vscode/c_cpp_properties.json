@@ -1,13 +1,26 @@
 {
     "configurations": [
         {
-            "name": "Mac",
+            "name": "Win32",
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "compilerPath": "C:/MinGW/bin/g++.exe",
+            "intelliSenseMode": "gcc-x64",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "browse": {
+                "path": [
+                    "${workspaceFolder}"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            },
             "includePath": [
                 "${workspaceFolder}/**"
-            ],
-            "defines": [],
-            "macFrameworkPath": [],
-            "intelliSenseMode": "macos-clang-x64"
+            ]
         }
     ],
     "version": 4
