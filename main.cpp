@@ -12,7 +12,7 @@ int main (int argc, char **argv)
     Grafo *grafo = new Grafo (in);
     grafo->imprime();
     cout << endl;
-
+    grafo->buscaLargura();
     /*
     ifstream in ("input.txt");
     clock_t start;
