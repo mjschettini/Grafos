@@ -424,11 +424,7 @@ void Grafo::buscaLargura(int x, int y){
     antecessor[u] = -1;
   }
   vector<int> visitados; // vetor para armazenar os vértices visitados
-  for(int u=0; u < this->numVertices; u++){
-    if(cor[u] == 0){
-      visitaBfs(u, cor, antecessor, dist, visitados); // passa o vetor como parâmetro
-    }
-  }
+  visitaBfs(x, cor, antecessor, dist, visitados); // chama a função apenas para o vértice de origem
   cout << "Busca em Largura: ";
   for (int i = 0; i < visitados.size(); i++) { // imprime os vértices visitados
     cout << visitados[i] << " ";
@@ -461,6 +457,7 @@ void Grafo::visitaBfs(int u, int *cor, int *antecessor, int *dist, vector<int>& 
     cor[u] = 2;
   }
 }
+
 
 
 void Grafo::imprimeCaminho(int u, int v, int *antecessor){

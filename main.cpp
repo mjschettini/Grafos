@@ -13,7 +13,7 @@ int main (int argc, char **argv)
     grafo->imprime();
     cout << endl;
     Grafo *grafoND = grafo->grafoNaoDirecionado();
-    grafoND->buscaLargura(2,8);
+    grafoND->buscaLargura(6,9);
     /*
     ifstream in ("input.txt");
     clock_t start;
