@@ -134,7 +134,7 @@ int main (int argc, char **argv)
   // }
 
 // // Ex15: Fazer a busca em largura e mostrar o menor caminho possível entre dois vértices (Exemplificado abaixo entre os vértices 0 e 3)
-  grafo->buscaLargura(0,3);
+  // grafo->buscaLargura(0,3);
 
 
 }
