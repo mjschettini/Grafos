@@ -115,7 +115,8 @@ int main (int argc, char **argv)
 
   // // Ex13: Numero de componentes
 
-  // cout << "Numero de componentes: " << grafo->busca_numComponentes() << endl;
+  // Grafo *grafoND = grafo->grafoNaoDirecionado();
+  // cout << "Numero de componentes: " << grafoND->numComponentes() << endl;
 
 
   // // Ex14: Ordenação Topológica
@@ -133,7 +134,7 @@ int main (int argc, char **argv)
   // }
 
 // // Ex15: Fazer a busca em largura e mostrar o menor caminho possível entre dois vértices (Exemplificado abaixo entre os vértices 0 e 3)
-//   grafo->buscaLargura(0,3);
+  grafo->buscaLargura(0,3);
 
 
 }

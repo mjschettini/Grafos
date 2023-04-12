@@ -75,7 +75,7 @@ using namespace std;
     void aciclicoVisitaDFS(int u, int *cor, int *antecessor, bool &ciclo);
     bool aciclico();
     void numComponentesVisitaDFS(int u, int *cor, int *antecessor);
-    int NumComponentes();
+    int numComponentes();
     void ordenacaoTopologicaVisitaDFS(int u, int *cor, int *antecessor, vector<int> &L);
     vector<int> ordenacaoTopologica();
     void buscaLargura(int x, int y);
@@ -365,7 +365,7 @@ using namespace std;
   }
 
 
-  int Grafo::NumComponentes(){
+  int Grafo::numComponentes(){
     int *antecessor = new int[this->_numVertices()];
     int *cor = new int[this->_numVertices()];
     int k=0;
