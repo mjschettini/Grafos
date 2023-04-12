@@ -12,7 +12,8 @@ int main (int argc, char **argv)
     Grafo *grafo = new Grafo (in);
     grafo->imprime();
     cout << endl;
-
+    Grafo *grafoND = grafo->grafoNaoDirecionado();
+    grafoND->buscaLargura(2,8);
     /*
     ifstream in ("input.txt");
     clock_t start;

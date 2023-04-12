@@ -1,5 +1,6 @@
 #include "Lista.h" 
 #include <iostream>
+#include <queue>
 #include <vector>
 #include<algorithm>
 using namespace std;
@@ -77,8 +78,8 @@ using namespace std;
     int NumComponentes();
     void ordenacaoTopologicaVisitaDFS(int u, int *cor, int *antecessor, vector<int> &L);
     vector<int> ordenacaoTopologica();
-    void buscaLargura();
-    void visitaBfs(int u, int *cor, int *antecessor, int *dist);
+    void buscaLargura(int x, int y);
+    void visitaBfs(int u, int *cor, int *antecessor, int *dist, vector<int>& visitados);
     void imprimeCaminho(int u, int v, int *antecessor);
     ~Grafo ();	  
 	};
@@ -413,47 +414,67 @@ using namespace std;
     return L;
   }
 
-void Grafo::buscaLargura(){
-  int *cor = new int[this->_numVertices()];
-  int *antecessor = new int[this->_numVertices()];
-  int *dist = new int[this->_numVertices()];
+void Grafo::buscaLargura(int x, int y){
+  int *cor = new int[this->numVertices];
+  int *antecessor = new int[this->numVertices];
+  int *dist = new int[this->numVertices];
   for(int u=0; u < this->numVertices; u++){
     cor[u] = 0;
     dist[u] = 999999;
     antecessor[u] = -1;
   }
+  vector<int> visitados; // vetor para armazenar os vértices visitados
   for(int u=0; u < this->numVertices; u++){
     if(cor[u] == 0){
-      visitaBfs(u, cor, antecessor, dist);
+      visitaBfs(u, cor, antecessor, dist, visitados); // passa o vetor como parâmetro
     }
   }
+  cout << "Busca em Largura: ";
+  for (int i = 0; i < visitados.size(); i++) { // imprime os vértices visitados
+    cout << visitados[i] << " ";
+  }
+  cout << endl;
+  imprimeCaminho(x, y, antecessor);
 }
 
-void Grafo::visitaBfs(int u, int *cor, int *antecessor, int *dist){
+void Grafo::visitaBfs(int u, int *cor, int *antecessor, int *dist, vector<int>& visitados){ // recebe o vetor por referência
   queue<int> fila;
   int v;
   dist[u] = 0;
   cor[u] = 1;
   fila.push(u);
-  cout << u << ' ';
-  Aresta *adj = this->primeiroListaAdj(u);
   while (!fila.empty()){
     u = fila.front();
+    fila.pop();
+    visitados.push_back(u); // adiciona o vértice visitado ao vetor
+    Aresta *adj = this->primeiroListaAdj(u);
     while (adj != NULL){
       v = adj->_v2();
       if(cor[v] == 0){
         cor[v] = 1;
         dist[v] = dist[u] + 1;
         antecessor[v] = u;
-        fila.push(u);
-        visitaBfs(v, cor, antecessor, dist);
+        fila.push(v);
       }
       adj = this->proxAdj(u);
     }
     cor[u] = 2;
   }
-
 }
+
+
+void Grafo::imprimeCaminho(int u, int v, int *antecessor){
+  if (u == v) {
+    cout << "Menor caminho: " << u << " ";
+  } else if (antecessor[v] == -1) {
+    cout << "Menor caminho: Nao existe caminho de " << u << " para " << v << endl;
+  } else {
+    imprimeCaminho(u, antecessor[v], antecessor);
+    cout << v << " ";
+  }
+}
+
+
 
   Grafo::~Grafo () {
     delete [] this->adj;
