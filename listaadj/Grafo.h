@@ -77,6 +77,9 @@ using namespace std;
     int NumComponentes();
     void ordenacaoTopologicaVisitaDFS(int u, int *cor, int *antecessor, vector<int> &L);
     vector<int> ordenacaoTopologica();
+    void buscaLargura();
+    void visitaBfs(int u, int *cor, int *antecessor, int *dist);
+    void imprimeCaminho(int u, int v, int *antecessor);
     ~Grafo ();	  
 	};
 
@@ -410,6 +413,47 @@ using namespace std;
     return L;
   }
 
+void Grafo::buscaLargura(){
+  int *cor = new int[this->_numVertices()];
+  int *antecessor = new int[this->_numVertices()];
+  int *dist = new int[this->_numVertices()];
+  for(int u=0; u < this->numVertices; u++){
+    cor[u] = 0;
+    dist[u] = 999999;
+    antecessor[u] = -1;
+  }
+  for(int u=0; u < this->numVertices; u++){
+    if(cor[u] == 0){
+      visitaBfs(u, cor, antecessor, dist);
+    }
+  }
+}
+
+void Grafo::visitaBfs(int u, int *cor, int *antecessor, int *dist){
+  queue<int> fila;
+  int v;
+  dist[u] = 0;
+  cor[u] = 1;
+  fila.push(u);
+  cout << u << ' ';
+  Aresta *adj = this->primeiroListaAdj(u);
+  while (!fila.empty()){
+    u = fila.front();
+    while (adj != NULL){
+      v = adj->_v2();
+      if(cor[v] == 0){
+        cor[v] = 1;
+        dist[v] = dist[u] + 1;
+        antecessor[v] = u;
+        fila.push(u);
+        visitaBfs(v, cor, antecessor, dist);
+      }
+      adj = this->proxAdj(u);
+    }
+    cor[u] = 2;
+  }
+
+}
 
   Grafo::~Grafo () {
     delete [] this->adj;
