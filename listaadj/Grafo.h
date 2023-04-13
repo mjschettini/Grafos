@@ -1,106 +1,89 @@
 #include "Lista.h"
 #include <iostream>
+#include <queue>
 #include <vector>
 #include <queue>
 #include <algorithm>
 using namespace std;
 
-class Grafo
-{
-public:
-  class Aresta
-  {
-  private:
-    int v1, v2, peso;
-
+	class Grafo {
+	public:
+		class Aresta {
+	  private:
+	    int v1, v2, peso; 
+	  public: 
+	    Aresta (int v1, int v2, int peso) {
+	      this->v1 = v1; this->v2 = v2; this->peso = peso;
+	    }
+	    int _peso () { return this->peso; }
+	    int _v1 () { return this->v1; }
+	    int _v2 () { return this->v2; }
+	    ~Aresta(){}
+	  };
+	private:	
+		class Celula {
+      friend class Grafo;
+      friend ostream& operator<< (ostream& out, const Celula& celula) {
+        out << "vertice:" << celula.vertice << endl;
+        out << "peso:"    << celula.peso    << endl;
+        return out;
+      }    
+		private:	
+	    int vertice, peso;
+	  public:
+	    Celula (int v, int p) {
+	    	this->vertice = v; this->peso = p;
+	    }
+	    Celula (const Celula& cel) { *this = cel; }      
+      bool operator== (const Celula& celula) const {
+        return this->vertice == celula.vertice;
+      }
+      bool operator!= (const Celula& celula) const {
+        return this->vertice != celula.vertice;
+      }
+      const Celula& operator= (const Celula& cel) {     
+        this->vertice = cel.vertice; this->peso = cel.peso;
+        return *this; // @{\it permite atribui\c{c}\~oes encadeadas}@
+      }      
+      ~Celula () {}	    
+	  }; 
+    Lista<Celula> *adj; 
+    int numVertices, numOperacao;
   public:
-    Aresta(int v1, int v2, int peso)
-    {
-      this->v1 = v1;
-      this->v2 = v2;
-      this->peso = peso;
-    }
-    int _peso() { return this->peso; }
-    int _v1() { return this->v1; }
-    int _v2() { return this->v2; }
-    ~Aresta() {}
-  };
-
-private:
-  class Celula
-  {
-    friend class Grafo;
-    friend ostream &operator<<(ostream &out, const Celula &celula)
-    {
-      out << "vertice:" << celula.vertice << endl;
-      out << "peso:" << celula.peso << endl;
-      return out;
-    }
-
-  private:
-    int vertice, peso;
-
-  public:
-    Celula(int v, int p)
-    {
-      this->vertice = v;
-      this->peso = p;
-    }
-    Celula(const Celula &cel) { *this = cel; }
-    bool operator==(const Celula &celula) const
-    {
-      return this->vertice == celula.vertice;
-    }
-    bool operator!=(const Celula &celula) const
-    {
-      return this->vertice != celula.vertice;
-    }
-    const Celula &operator=(const Celula &cel)
-    {
-      this->vertice = cel.vertice;
-      this->peso = cel.peso;
-      return *this; // @{\it permite atribui\c{c}\~oes encadeadas}@
-    }
-    ~Celula() {}
-  };
-  Lista<Celula> *adj;
-  int numVertices, numOperacao;
-
-public:
-  Grafo(istream &in);
-  Grafo(int numVertices);
-  Grafo(int numVertices, int numArestas);
-  void insereAresta(int v1, int v2, int peso);
-  bool existeAresta(int v1, int v2) const;
-  bool listaAdjVazia(int v) const;
-  Aresta *lerAresta();
-  Aresta *primeiroListaAdj(int v);
-  Aresta *proxAdj(int v);
-  Aresta *retiraAresta(int v1, int v2);
-  void imprime() const;
-  int _numVertices() const;
-  Grafo *grafoTransposto();
-  Grafo *grafoNaoDirecionado();
-  // void Grafo::insereArestaNova ();
-  int grauVertice(int v) const;
-  bool completo() const;
-  bool euleriano() const;
-  bool subEuleriano() const;
-  int _numOperacao();
-  void caminhoEuler();
-  void visitaDfs(int u, int *cor, int *antecessor);
-  void buscaProfundidade();
-  void aciclicoVisitaDFS(int u, int *cor, int *antecessor, bool &ciclo);
-  bool aciclico();
-  void numComponentesVisitaDFS(int u, int *cor, int *antecessor);
-  int NumComponentes();
-  void ordenacaoTopologicaVisitaDFS(int u, int *cor, int *antecessor, vector<int> &L);
-  vector<int> ordenacaoTopologica();
-  void buscaLargura();
-  void visitaBfs(int u, int *cor, int *antecessor, int *dist);
-  void imprimeCaminho(int u, int v, int *antecessor);
-  ~Grafo();
-};
+    Grafo( istream &in );
+    Grafo (int numVertices);	  
+    Grafo (int numVertices, int numArestas);	  
+	  void insereAresta (int v1, int v2, int peso);
+	  bool existeAresta (int v1, int v2) const;
+	  bool listaAdjVazia (int v) const;
+    Aresta *lerAresta ();
+	  Aresta *primeiroListaAdj (int v);
+	  Aresta *proxAdj (int v);
+	  Aresta *retiraAresta (int v1, int v2);
+	  void imprime () const ;
+	  int _numVertices () const;
+	  Grafo *grafoTransposto ();
+    Grafo *grafoNaoDirecionado();
+    // void Grafo::insereArestaNova ();
+    int grauVertice(int v) const;
+    bool completo() const;
+    bool euleriano() const;
+    bool subEuleriano() const;
+    int _numOperacao();
+    void caminhoEuler();
+    void visitaDfs(int u, int *cor, int *antecessor);
+    void buscaProfundidade();
+    void aciclicoVisitaDFS(int u, int *cor, int *antecessor, bool &ciclo);
+    bool aciclico();
+    void numComponentesVisitaDFS(int u, int *cor, int *antecessor);
+    int numComponentes();
+    void ordenacaoTopologicaVisitaDFS(int u, int *cor, int *antecessor, vector<int> &L);
+    vector<int> ordenacaoTopologica();
+    void buscaLargura(int x, int y);
+    void visitaBfs(int u, int *cor, int *antecessor, int *dist, vector<int>& visitados);
+    void imprimeCaminho(int u, int v, int *antecessor);
+    ~Grafo ();	  
+	};
 
 Grafo::Grafo(istream &in)
 {
@@ -439,24 +422,22 @@ void Grafo::numComponentesVisitaDFS(int u, int *cor, int *antecessor)
   cor[u] = 2;
 }
 
-int Grafo::NumComponentes()
-{
-  int *antecessor = new int[this->_numVertices()];
-  int *cor = new int[this->_numVertices()];
-  int k = 0;
-  for (int u = 0; u < this->numVertices; u++)
-  {
-    antecessor[u] = -1;
-    cor[u] = 0;
-  }
-  for (int u = 0; u < this->numVertices; u++)
-    if (cor[u] == 0)
-    {
-      numComponentesVisitaDFS(u, cor, antecessor);
-      k++;
+
+  int Grafo::numComponentes(){
+    int *antecessor = new int[this->_numVertices()];
+    int *cor = new int[this->_numVertices()];
+    int k=0;
+    for(int u=0; u < this->numVertices; u++){
+      antecessor[u] = -1;
+      cor[u] = 0;
     }
-  return k;
-}
+    for(int u=0; u < this->numVertices; u++)
+      if(cor[u] == 0){
+        numComponentesVisitaDFS(u, cor, antecessor);
+        k++;
+      }
+    return k;
+  }
 
 void Grafo::ordenacaoTopologicaVisitaDFS(int u, int *cor, int *antecessor, vector<int> &L)
 {
@@ -484,39 +465,79 @@ vector<int> Grafo::ordenacaoTopologica()
   int *cor = new int[this->_numVertices()];
   vector<int> L;
 
-  for (int u = 0; u < this->numVertices; u++)
-  {
-    antecessor[u] = -1;
-    cor[u] = 0;
+    for(int u=0; u < this->numVertices; u++){
+      antecessor[u] = -1;
+      cor[u] = 0;
+    }
+    for(int u=0; u < this->numVertices; u++)
+      if(cor[u]==0)
+        ordenacaoTopologicaVisitaDFS(u, cor, antecessor, L);
+    reverse(L.begin(), L.end());
+    return L;
   }
-  for (int u = 0; u < this->numVertices; u++)
-    if (cor[u] == 0)
-      ordenacaoTopologicaVisitaDFS(u, cor, antecessor, L);
-  reverse(L.begin(), L.end());
-  return L;
-}
-void Grafo::buscaLargura()
-{
-  // cout << "aqui2" << " ";
-  int *cor = new int[this->_numVertices()];
-  int *antecessor = new int[this->_numVertices()];
-  int *dist = new int[this->_numVertices()];
-  // cout << "aqui3" << " ";
-  for (int u = 0; u < this->numVertices; u++)
-  {
-    // cout << "aqui4" << " ";
+
+void Grafo::buscaLargura(int x, int y){
+  int *cor = new int[this->numVertices];
+  int *antecessor = new int[this->numVertices];
+  int *dist = new int[this->numVertices];
+  for(int u=0; u < this->numVertices; u++){
     cor[u] = 0;
     dist[u] = 999999;
     antecessor[u] = -1;
   }
-  for (int u = 0; u < this->numVertices; u++)
-  {
-    if (cor[u] == 0)
-    {
-      visitaBfs(u, cor, antecessor, dist);
+  vector<int> visitados; // vetor para armazenar os vértices visitados
+  visitaBfs(x, cor, antecessor, dist, visitados); // chama a função apenas para o vértice de origem
+  cout << "Busca em Largura: ";
+  for (int i = 0; i < visitados.size(); i++) { // imprime os vértices visitados
+    cout << visitados[i] << " ";
+  }
+  cout << endl;
+  imprimeCaminho(x, y, antecessor);
+}
+
+void Grafo::visitaBfs(int u, int *cor, int *antecessor, int *dist, vector<int>& visitados){ // recebe o vetor por referência
+  queue<int> fila;
+  int v;
+  dist[u] = 0;
+  cor[u] = 1;
+  fila.push(u);
+  while (!fila.empty()){
+    u = fila.front();
+    fila.pop();
+    visitados.push_back(u); // adiciona o vértice visitado ao vetor
+    Aresta *adj = this->primeiroListaAdj(u);
+    while (adj != NULL){
+      v = adj->_v2();
+      if(cor[v] == 0){
+        cor[v] = 1;
+        dist[v] = dist[u] + 1;
+        antecessor[v] = u;
+        fila.push(v);
+      }
+      adj = this->proxAdj(u);
     }
+    cor[u] = 2;
   }
 }
+
+
+
+void Grafo::imprimeCaminho(int u, int v, int *antecessor){
+  if (u == v) {
+    cout << "Menor caminho: " << u << " ";
+  } else if (antecessor[v] == -1) {
+    cout << "Menor caminho: Nao existe caminho de " << u << " para " << v << endl;
+  } else {
+    imprimeCaminho(u, antecessor[v], antecessor);
+    cout << v << " ";
+  }
+}
+
+
+
+  Grafo::~Grafo () {
+    delete [] this->adj;
+  }	  
 
 void Grafo::visitaBfs(int u, int *cor, int *antecessor, int *dist)
 {
