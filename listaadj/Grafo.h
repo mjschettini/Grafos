@@ -519,9 +519,6 @@ void Grafo::visitaBfs(int u, int *cor, int *antecessor, int *dist, vector<int>& 
     cor[u] = 2;
   }
 }
-
-
-
 void Grafo::imprimeCaminho(int u, int v, int *antecessor){
   if (u == v) {
     cout << "Menor caminho: " << u << " ";
@@ -532,6 +529,7 @@ void Grafo::imprimeCaminho(int u, int v, int *antecessor){
     cout << v << " ";
   }
 }
+
 Grafo::~Grafo()
 {
   delete[] this->adj;
