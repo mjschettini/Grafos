@@ -532,48 +532,6 @@ void Grafo::imprimeCaminho(int u, int v, int *antecessor){
     cout << v << " ";
   }
 }
-
-
-
-  Grafo::~Grafo () {
-    delete [] this->adj;
-  }	  
-
-void Grafo::visitaBfs(int u, int *cor, int *antecessor, int *dist)
-{
-  // cout << "aqui" << " ";
-  queue<int> fila;
-  int v;
-  dist[u] = 0;
-  cor[u] = 1;
-  fila.push(u);
-  cout << fila.front() << ' ';
-  Aresta *adj = this->primeiroListaAdj(u);
-  while (!fila.empty())
-  {
-    // cout << fila.front() << ' ';
-    u = fila.front();
-    fila.pop();
-    while (adj != NULL)
-    {
-      // u=fila.front();
-      v = adj->_v2();
-      if (cor[v] == 0)
-      {
-        cor[v] = 1;
-        dist[v] = dist[u] + 1;
-        antecessor[v] = u;
-        fila.push(u);
-        // fila.pop();
-        cout<< fila.front();
-        // visitaBfs(v, cor, antecessor, dist);
-      }
-      adj = this->proxAdj(u);
-    }
-    cor[u] = 2;
-  }
-}
-
 Grafo::~Grafo()
 {
   delete[] this->adj;
