@@ -6,15 +6,11 @@
 using namespace std;
 #pragma GCC diagnostic pop
 
-int main (int argc, char **argv)
+int main(int argc, char **argv)
 {
-    ifstream in ("input.txt");
-    Grafo *grafo = new Grafo (in);
-    grafo->imprime();
-    cout << endl;
-
-// // Ex15: Fazer a busca em largura e mostrar o menor caminho possível entre dois vértices (Exemplificado abaixo entre os vértices 0 e 3)
-  grafo->buscaLargura(0,3);
-
-
+  ifstream in("input.txt");
+  Grafo *grafo = new Grafo(in);
+  grafo->imprime();
+  cout << endl;
+  grafo->buscaLargura(0, 3);
 }
